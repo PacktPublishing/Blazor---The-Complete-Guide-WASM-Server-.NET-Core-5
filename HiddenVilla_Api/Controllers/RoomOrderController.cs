@@ -1,12 +1,9 @@
-﻿using Business.Repository.IRepository;
+﻿using System.Threading.Tasks;
+using Business.Repository.IRepository;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Stripe.Checkout;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HiddenVilla_Api.Controllers
 {
@@ -43,7 +40,6 @@ namespace HiddenVilla_Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PaymentSuccessful([FromBody] RoomOrderDetailsDTO details)
         {
-
             var service = new SessionService();
             var sessionDetails = service.Get(details.StripeSessionId);
             if (sessionDetails.PaymentStatus == "paid")
@@ -67,7 +63,6 @@ namespace HiddenVilla_Api.Controllers
                     ErrorMessage = "Can not mark payment as successful"
                 });
             }
-
         }
     }
 }

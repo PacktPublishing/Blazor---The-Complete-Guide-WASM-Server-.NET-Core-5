@@ -1,11 +1,10 @@
-﻿using HiddenVilla_Client.Service.IService;
-using Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using HiddenVilla_Client.Service.IService;
+using Models;
+using Newtonsoft.Json;
 
 namespace HiddenVilla_Client.Service
 {
@@ -13,10 +12,7 @@ namespace HiddenVilla_Client.Service
     {
         private readonly HttpClient _client;
 
-        public HotelRoomService(HttpClient client)
-        {
-            _client = client;
-        }
+        public HotelRoomService(HttpClient client) => _client = client;
 
         public async Task<HotelRoomDTO> GetHotelRoomDetails(int roomId, string checkInDate, string checkOutDate)
         {
@@ -33,7 +29,6 @@ namespace HiddenVilla_Client.Service
                 var errorModel = JsonConvert.DeserializeObject<ErrorModel>(content);
                 throw new Exception(errorModel.ErrorMessage);
             }
-
         }
 
         public async Task<IEnumerable<HotelRoomDTO>> GetHotelRooms(string checkInDate, string checkOutDate)

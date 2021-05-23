@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Stripe.Checkout;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HiddenVilla_Api.Controllers
 {
@@ -15,10 +14,8 @@ namespace HiddenVilla_Api.Controllers
     {
         private readonly IConfiguration _configuration;
 
-        public StripePaymentController(IConfiguration configuration)
-        {
+        public StripePaymentController(IConfiguration configuration) =>
             _configuration = configuration;
-        }
 
         [HttpPost]
         public async Task<IActionResult> Create(StripePaymentDTO payment)
@@ -55,13 +52,12 @@ namespace HiddenVilla_Api.Controllers
                 };
 
                 var service = new SessionService();
-                Session session = await service.CreateAsync(options);
+                var session = await service.CreateAsync(options);
 
                 return Ok(new SuccessModel()
                 {
                     Data = session.Id
                 });
-
             }
             catch (Exception e)
             {

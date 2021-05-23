@@ -1,3 +1,5 @@
+using System;
+using System.Text;
 using AutoMapper;
 using Business.Repository;
 using Business.Repository.IRepository;
@@ -6,33 +8,22 @@ using HiddenVilla_Api.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using Stripe;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HiddenVilla_Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
@@ -82,9 +73,7 @@ namespace HiddenVilla_Api
             services.AddScoped<IHotelImagesRepository, HotelImagesRepository>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddCors(o => o.AddPolicy("HiddenVilla", builder =>
-            {
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-            }));
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
             services.AddRouting(option => option.LowercaseUrls = true);
             services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = null)
@@ -113,7 +102,7 @@ namespace HiddenVilla_Api
                          Id = "Bearer"
                        }
                       },
-                      new string[] { }
+                      Array.Empty<string>()
                     }
                 });
             });
@@ -126,16 +115,11 @@ namespace HiddenVilla_Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
             }
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HiddenVilla_Api v1");
-
-            }
-            );
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HiddenVilla_Api v1"));
             app.UseHttpsRedirection();
             app.UseCors("HiddenVilla");
             app.UseRouting();
@@ -144,9 +128,7 @@ namespace HiddenVilla_Api
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+                endpoints.MapControllers());
         }
     }
 }

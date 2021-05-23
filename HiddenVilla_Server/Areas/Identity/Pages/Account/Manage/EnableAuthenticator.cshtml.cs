@@ -1,10 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +16,7 @@ namespace HiddenVilla_Server.Areas.Identity.Pages.Account.Manage
         private readonly ILogger<EnableAuthenticatorModel> _logger;
         private readonly UrlEncoder _urlEncoder;
 
-        private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
+        private const string _authenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public EnableAuthenticatorModel(
             UserManager<IdentityUser> userManager,
@@ -127,18 +124,19 @@ namespace HiddenVilla_Server.Areas.Identity.Pages.Account.Manage
             AuthenticatorUri = GenerateQrCodeUri(email, unformattedKey);
         }
 
-        private string FormatKey(string unformattedKey)
+        private static string FormatKey(string unformattedKey)
         {
             var result = new StringBuilder();
-            int currentPosition = 0;
+            var currentPosition = 0;
             while (currentPosition + 4 < unformattedKey.Length)
             {
-                result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
+                result.Append(unformattedKey, currentPosition, 4)
+                    .Append(' ');
                 currentPosition += 4;
             }
             if (currentPosition < unformattedKey.Length)
             {
-                result.Append(unformattedKey.Substring(currentPosition));
+                result.Append(unformattedKey[currentPosition..]);
             }
 
             return result.ToString().ToLowerInvariant();
@@ -147,7 +145,7 @@ namespace HiddenVilla_Server.Areas.Identity.Pages.Account.Manage
         private string GenerateQrCodeUri(string email, string unformattedKey)
         {
             return string.Format(
-                AuthenticatorUriFormat,
+                _authenticatorUriFormat,
                 _urlEncoder.Encode("HiddenVilla_Server"),
                 _urlEncoder.Encode(email),
                 unformattedKey);

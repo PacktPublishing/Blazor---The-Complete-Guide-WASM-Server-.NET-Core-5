@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -43,7 +41,7 @@ namespace HiddenVilla_Server.Areas.Identity.Pages.Account
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                throw new InvalidOperationException("Unable to load two-factor authentication user.");
             }
 
             ReturnUrl = returnUrl;
@@ -61,7 +59,7 @@ namespace HiddenVilla_Server.Areas.Identity.Pages.Account
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                throw new InvalidOperationException("Unable to load two-factor authentication user.");
             }
 
             var recoveryCode = Input.RecoveryCode.Replace(" ", string.Empty);

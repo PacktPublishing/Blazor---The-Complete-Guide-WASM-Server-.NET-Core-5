@@ -1,12 +1,10 @@
-﻿using Business.Repository.IRepository;
+﻿using System;
+using System.Globalization;
+using System.Threading.Tasks;
+using Business.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HiddenVilla_Api.Controllers
 {
@@ -15,10 +13,8 @@ namespace HiddenVilla_Api.Controllers
     {
         private readonly IHotelRoomRepository _hotelRoomRepository;
 
-        public HotelRoomController(IHotelRoomRepository hotelRoomRepository)
-        {
+        public HotelRoomController(IHotelRoomRepository hotelRoomRepository) =>
             _hotelRoomRepository = hotelRoomRepository;
-        }
 
         [HttpGet]
         public async Task<IActionResult> GetHotelRooms(string checkInDate = null, string checkOutDate = null)
@@ -31,7 +27,8 @@ namespace HiddenVilla_Api.Controllers
                     ErrorMessage = "All parameters need to be supplied"
                 });
             }
-            if (!DateTime.TryParseExact(checkInDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckInDate))
+
+            if (!DateTime.TryParseExact(checkInDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
             {
                 return BadRequest(new ErrorModel()
                 {
@@ -39,7 +36,8 @@ namespace HiddenVilla_Api.Controllers
                     ErrorMessage = "Invalid CheckIn date format. valid format will be MM/dd/yyyy"
                 });
             }
-            if (!DateTime.TryParseExact(checkOutDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckOutDate))
+
+            if (!DateTime.TryParseExact(checkOutDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
             {
                 return BadRequest(new ErrorModel()
                 {
@@ -72,7 +70,8 @@ namespace HiddenVilla_Api.Controllers
                     ErrorMessage = "All parameters need to be supplied"
                 });
             }
-            if (!DateTime.TryParseExact(checkInDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckInDate))
+
+            if (!DateTime.TryParseExact(checkInDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
             {
                 return BadRequest(new ErrorModel()
                 {
@@ -80,7 +79,8 @@ namespace HiddenVilla_Api.Controllers
                     ErrorMessage = "Invalid CheckIn date format. valid format will be MM/dd/yyyy"
                 });
             }
-            if (!DateTime.TryParseExact(checkOutDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckOutDate))
+
+            if (!DateTime.TryParseExact(checkOutDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
             {
                 return BadRequest(new ErrorModel()
                 {
@@ -90,18 +90,14 @@ namespace HiddenVilla_Api.Controllers
             }
 
             var roomDetails = await _hotelRoomRepository.GetHotelRoom(roomId.Value, checkInDate, checkOutDate);
-            if (roomDetails == null)
-            {
-                return BadRequest(new ErrorModel()
+            return roomDetails == null
+                ? BadRequest(new ErrorModel()
                 {
                     Title = "",
                     ErrorMessage = "Invalid Room Id",
                     StatusCode = StatusCodes.Status404NotFound
-                });
-            }
-
-            return Ok(roomDetails);
-
+                })
+                : Ok(roomDetails);
         }
     }
 }

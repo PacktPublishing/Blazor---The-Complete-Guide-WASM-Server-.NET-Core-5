@@ -1,13 +1,10 @@
-﻿using HiddenVilla_Server.Service.IService;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using HiddenVilla_Server.Service.IService;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HiddenVilla_Server.Service
 {
@@ -34,9 +31,9 @@ namespace HiddenVilla_Server.Service
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -44,7 +41,7 @@ namespace HiddenVilla_Server.Service
         {
             try
             {
-                FileInfo fileInfo = new FileInfo(file.Name);
+                var fileInfo = new FileInfo(file.Name);
                 var fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
                 var folderDirectory = $"{_webHostEnvironment.WebRootPath}\\RoomImages";
                 var path = Path.Combine(_webHostEnvironment.WebRootPath, "RoomImages", fileName);
@@ -62,12 +59,11 @@ namespace HiddenVilla_Server.Service
                     memoryStream.WriteTo(fs);
                 }
                 var url = $"{_configuration.GetValue<string>("ServerUrl")}";
-                var fullPath = $"{url}RoomImages/{fileName}";
-                return fullPath;
+                return $"{url}RoomImages/{fileName}";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
     }

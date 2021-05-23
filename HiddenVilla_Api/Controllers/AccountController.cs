@@ -1,4 +1,11 @@
-﻿using Common;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Common;
 using DataAcesss.Data;
 using HiddenVilla_Api.Helper;
 using Microsoft.AspNetCore.Authorization;
@@ -7,13 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HiddenVilla_Api.Controllers
 {
@@ -74,7 +74,6 @@ namespace HiddenVilla_Api.Controllers
             return StatusCode(201);
         }
 
-
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> SignIn([FromBody] AuthenticationDTO authenticationDTO)
@@ -111,7 +110,7 @@ namespace HiddenVilla_Api.Controllers
                 {
                     IsAuthSuccessful = true,
                     Token = token,
-                    userDTO = new UserDTO
+                    UserDTO = new UserDTO
                     {
                         Name = user.Name,
                         Id = user.Id,
@@ -130,7 +129,6 @@ namespace HiddenVilla_Api.Controllers
             }
         }
 
-
         private SigningCredentials GetSigningCredentials()
         {
             var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_aPISettings.SecretKey));
@@ -144,7 +142,6 @@ namespace HiddenVilla_Api.Controllers
                 new Claim(ClaimTypes.Name,user.Email),
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim("Id",user.Id),
-
             };
             var roles = await _userManager.GetRolesAsync(await _userManager.FindByEmailAsync(user.Email));
 

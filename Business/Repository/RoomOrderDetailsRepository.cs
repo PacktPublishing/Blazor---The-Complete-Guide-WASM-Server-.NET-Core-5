@@ -1,14 +1,12 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Business.Repository.IRepository;
 using Common;
 using DataAcesss.Data;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Repository
 {
@@ -34,48 +32,47 @@ namespace Business.Repository
                 await _db.SaveChangesAsync();
                 return _mapper.Map<RoomOrderDetails, RoomOrderDetailsDTO>(result.Entity);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
         }
 
-        public async Task<IEnumerable<RoomOrderDetailsDTO>> GetAllRoomOrderDetails()
+        public Task<IEnumerable<RoomOrderDetailsDTO>> GetAllRoomOrderDetails()
         {
+            var tcs = new TaskCompletionSource<IEnumerable<RoomOrderDetailsDTO>>();
             try
             {
-                IEnumerable<RoomOrderDetailsDTO> roomOrders = _mapper.Map<IEnumerable<RoomOrderDetails>, IEnumerable<RoomOrderDetailsDTO>>
+                var roomOrders = _mapper.Map<IEnumerable<RoomOrderDetails>, IEnumerable<RoomOrderDetailsDTO>>
                     (_db.RoomOrderDetails.Include(u => u.HotelRoom));
-
-                return roomOrders;
+                tcs.SetResult(roomOrders);
             }
-            catch (Exception e)
+            catch (Exception exc)
             {
-                return null;
+                tcs.SetException(exc);
             }
+            return tcs.Task;
         }
 
         public async Task<RoomOrderDetailsDTO> GetRoomOrderDetail(int roomOrderId)
         {
             try
             {
-                RoomOrderDetails roomOrder = await _db.RoomOrderDetails
+                var roomOrder = await _db.RoomOrderDetails
                     .Include(u => u.HotelRoom).ThenInclude(x => x.HotelRoomImages)
                     .FirstOrDefaultAsync(u => u.Id == roomOrderId);
 
-                RoomOrderDetailsDTO roomOrderDetailsDTO = _mapper.Map<RoomOrderDetails, RoomOrderDetailsDTO>(roomOrder);
+                var roomOrderDetailsDTO = _mapper.Map<RoomOrderDetails, RoomOrderDetailsDTO>(roomOrder);
                 roomOrderDetailsDTO.HotelRoomDTO.TotalDays = roomOrderDetailsDTO.CheckOutDate
                     .Subtract(roomOrderDetailsDTO.CheckInDate).Days;
 
                 return roomOrderDetailsDTO;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
         }
-
-
 
         public async Task<RoomOrderDetailsDTO> MarkPaymentSuccessful(int id)
         {
@@ -116,7 +113,7 @@ namespace Business.Repository
                 await _db.SaveChangesAsync();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
