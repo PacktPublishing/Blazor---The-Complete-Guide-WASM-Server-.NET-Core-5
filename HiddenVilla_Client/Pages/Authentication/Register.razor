@@ -1,6 +1,6 @@
 ﻿@page "/registration"
 
-<EditForm Model="UserForRegisteration" OnValidSubmit="RegisterUser" class="pt-4">
+<EditForm Model="_userForRegisteration" OnValidSubmit="RegisterUser" class="pt-4">
     <DataAnnotationsValidator />
     <div class="py-4">
         <div class=" row form-group ">
@@ -23,31 +23,31 @@
 
                         <hr style="background-color:aliceblue" />
                         <div class="py-2">
-                            <InputText @bind-Value="UserForRegisteration.Name" class="form-control" placeholder="Name..." />
-                            <ValidationMessage For="(()=>UserForRegisteration.Name)" />
+                            <InputText @bind-Value="_userForRegisteration.Name" class="form-control" placeholder="Name..." />
+                            <ValidationMessage For="(()=>_userForRegisteration.Name)" />
 
                         </div>
                         <div class="py-2">
-                            <InputText @bind-Value="UserForRegisteration.Email" class="form-control" placeholder="Email..." />
-                            <ValidationMessage For="(()=>UserForRegisteration.Email)" />
+                            <InputText @bind-Value="_userForRegisteration.Email" class="form-control" placeholder="Email..." />
+                            <ValidationMessage For="(()=>_userForRegisteration.Email)" />
 
                         </div>
                         <div class="py-2 input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"> +1</span>
                             </div>
-                            <InputText @bind-Value="UserForRegisteration.PhoneNo" class="form-control" placeholder="Phone number..." />
-                            <ValidationMessage For="(()=>UserForRegisteration.PhoneNo)" />
+                            <InputText @bind-Value="_userForRegisteration.PhoneNo" class="form-control" placeholder="Phone number..." />
+                            <ValidationMessage For="(()=>_userForRegisteration.PhoneNo)" />
 
                         </div>
                         <div class="form-row py-2">
                             <div class="col">
-                                <InputText @bind-Value="UserForRegisteration.Password" type="password" id="password" placeholder="Password..." class="form-control" />
-                                <ValidationMessage For="(()=>UserForRegisteration.Password)" />
+                                <InputText @bind-Value="_userForRegisteration.Password" type="password" id="password" placeholder="Password..." class="form-control" />
+                                <ValidationMessage For="(()=>_userForRegisteration.Password)" />
                             </div>
                             <div class="col">
-                                <InputText @bind-Value="UserForRegisteration.ConfirmPassword" type="password" id="confirm" class="form-control" placeholder="Confirm Password..." />
-                                <ValidationMessage For="(()=>UserForRegisteration.ConfirmPassword)" />
+                                <InputText @bind-Value="_userForRegisteration.ConfirmPassword" type="password" id="confirm" class="form-control" placeholder="Confirm Password..." />
+                                <ValidationMessage For="(()=>_userForRegisteration.ConfirmPassword)" />
                             </div>
 
                         </div>

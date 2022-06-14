@@ -1,35 +1,33 @@
-﻿using HiddenVilla_Client.Service.IService;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using HiddenVilla_Client.Service.IService;
 using Microsoft.AspNetCore.Components;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HiddenVilla_Client.Pages.Authentication
 {
     public partial class Register
     {
-        private UserRequestDTO UserForRegisteration = new UserRequestDTO();
+        private UserRequestDTO _userForRegisteration = new();
         public bool IsProcessing { get; set; } = false;
         public bool ShowRegistrationErrors { get; set; }
         public IEnumerable<string> Errors { get; set; }
 
         [Inject]
-        public IAuthenticationService authenticationService { get; set; }
+        public IAuthenticationService AuthenticationService { get; set; }
 
         [Inject]
-        public NavigationManager navigationManager { get; set; }
+        public NavigationManager NavigationManager { get; set; }
 
         private async Task RegisterUser()
         {
             ShowRegistrationErrors = false;
             IsProcessing = true;
-            var result = await authenticationService.RegisterUser(UserForRegisteration);
+            var result = await AuthenticationService.RegisterUser(_userForRegisteration);
             if (result.IsRegisterationSuccessful)
             {
                 IsProcessing = false;
-                navigationManager.NavigateTo("/login");
+                NavigationManager.NavigateTo("/login");
             }
             else
             {

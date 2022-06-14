@@ -1,10 +1,9 @@
 ﻿@page "/demoHotel"
 @using Model
 
-
 <h3>We will display hotel rooms and amenitites here!</h3>
 <div class="border p-2 mt-2" style="background-color:azure">
-    <h2 class="text-info">Rool List [USING COMPONENT]</h2>
+    <h2 class="text-info">Room List [USING COMPONENT]</h2>
     <div class="row container">
         <div class="col-12">
             <h4 class="text-info">Hotel Room's</h4>
@@ -31,17 +30,12 @@
     </div>
 </div>
 
-
-
-
-@code{
+@code {
 
     public int SelectedRooms { get; set; } = 0;
     public string SelectedAmenity { get; set; } = "";
     List<BlazorRoom> RoomsList = new List<BlazorRoom>();
     List<BlazorAmenities> AmenitiesList = new List<BlazorAmenities>();
-
-
 
     protected override void OnInitialized()
     {
@@ -54,11 +48,10 @@
             IsActive = true,
             Price = 399,
             RoomProps = new List<BlazorRoomProp>
-{
+            {
             new Model.BlazorRoomProp{Id=1,Name="Sq Ft",Value="330"},
             new Model.BlazorRoomProp{Id=2,Name="Occupancy",Value="4"},
-
-             }
+            }
         });
 
         RoomsList.Add(new BlazorRoom()
@@ -68,14 +61,11 @@
             IsActive = true,
             Price = 699,
             RoomProps = new List<BlazorRoomProp>
-{
-            new Model.BlazorRoomProp{Id=1,Name="Sq Ft",Value="150"},
-            new Model.BlazorRoomProp{Id=2,Name="Occupancy",Value="6"},
-
+            {
+                new Model.BlazorRoomProp{Id=1,Name="Sq Ft",Value="150"},
+                new Model.BlazorRoomProp{Id=2,Name="Occupancy",Value="6"},
             }
         });
-
-
 
         AmenitiesList.Add(new BlazorAmenities
         {
@@ -93,10 +83,9 @@
         {
             Id = 333,
             Name = "Free Brakfast",
-            Description = "Enjoy free breakfast at out hotel."
+            Description = "Enjoy free breakfast at our hotel."
         });
     }
-
 
     protected void RoomSelectionCounterChanged(bool isRoomSelected)
     {

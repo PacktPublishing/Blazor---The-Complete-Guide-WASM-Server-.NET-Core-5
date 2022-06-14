@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HiddenVilla_Server.Areas.Identity.Pages.Account
 {
@@ -10,7 +6,6 @@ namespace HiddenVilla_Server.Areas.Identity.Pages.Account
     {
         public void OnGet()
         {
-
         }
     }
 }

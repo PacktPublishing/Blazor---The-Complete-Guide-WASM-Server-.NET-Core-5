@@ -1,9 +1,6 @@
-﻿using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Models;
 
 namespace Business.Repository.IRepository
 {
@@ -14,6 +11,5 @@ namespace Business.Repository.IRepository
         public Task<RoomOrderDetailsDTO> GetRoomOrderDetail(int roomOrderId);
         public Task<IEnumerable<RoomOrderDetailsDTO>> GetAllRoomOrderDetails();
         public Task<bool> UpdateOrderStatus(int RoomOrderId, string status);
-
     }
 }

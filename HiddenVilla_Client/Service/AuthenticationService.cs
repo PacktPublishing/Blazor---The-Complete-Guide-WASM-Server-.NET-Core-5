@@ -1,16 +1,13 @@
-﻿using Blazored.LocalStorage;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using Blazored.LocalStorage;
 using Common;
 using HiddenVilla_Client.Service.IService;
 using Microsoft.AspNetCore.Components.Authorization;
 using Models;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HiddenVilla_Client.Service
 {
@@ -39,7 +36,7 @@ namespace HiddenVilla_Client.Service
             if (response.IsSuccessStatusCode)
             {
                 await _localStorage.SetItemAsync(SD.Local_Token, result.Token);
-                await _localStorage.SetItemAsync(SD.Local_UserDetails, result.userDTO);
+                await _localStorage.SetItemAsync(SD.Local_UserDetails, result.UserDTO);
                 ((AuthStateProvider)_authStateProvider).NotifyUserLoggedIn(result.Token);
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
                 return new AuthenticationResponseDTO { IsAuthSuccessful = true };
@@ -65,15 +62,9 @@ namespace HiddenVilla_Client.Service
             var contentTemp = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<RegisterationResponseDTO>(contentTemp);
 
-            if (response.IsSuccessStatusCode)
-            {
-
-                return new RegisterationResponseDTO { IsRegisterationSuccessful = true };
-            }
-            else
-            {
-                return result;
-            }
+            return response.IsSuccessStatusCode
+                ? new RegisterationResponseDTO { IsRegisterationSuccessful = true }
+                : result;
         }
     }
 }

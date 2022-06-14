@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -17,10 +14,7 @@ namespace HiddenVilla_Server.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
 
-        public ResetPasswordModel(UserManager<IdentityUser> userManager)
-        {
-            _userManager = userManager;
-        }
+        public ResetPasswordModel(UserManager<IdentityUser> userManager) => _userManager = userManager;
 
         [BindProperty]
         public InputModel Input { get; set; }

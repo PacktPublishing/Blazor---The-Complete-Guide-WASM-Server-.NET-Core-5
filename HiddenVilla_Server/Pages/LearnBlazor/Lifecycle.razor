@@ -1,5 +1,6 @@
 ﻿@page "/lifecycle"
 @using System.Threading
+@using Common
 
 <h3>Lifecycle</h3>
 
@@ -33,17 +34,17 @@
     {
         EventType.Add("OnInitialized is called");
     }
-    protected override async Task OnInitializedAsync()
+    protected override Task<bool> OnInitializedAsync()
     {
-        EventType.Add("OnInitializedAsync is called");
+        return Utils.SyncAction<string>(EventType.Add, "OnInitializedAsync is called");
     }
     protected override void OnParametersSet()
     {
         EventType.Add("OnParameterSet is called");
     }
-    protected override async Task OnParametersSetAsync()
+    protected override Task<bool> OnParametersSetAsync()
     {
-        EventType.Add("OnParametersSetAsync is called");
+        return Utils.SyncAction<string>(EventType.Add, "OnParametersSetAsync is called");
     }
     protected override void OnAfterRender(bool firstRender)
     {
@@ -57,9 +58,9 @@
         }
         EventType.Add("OnAfterRender is called");
     }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        EventType.Add("OnAfterRenderAsync is called");
+        return Common.Utils.SyncAction<string>(EventType.Add, "OnAfterRenderAsync is called");
     }
 
     protected override bool ShouldRender()

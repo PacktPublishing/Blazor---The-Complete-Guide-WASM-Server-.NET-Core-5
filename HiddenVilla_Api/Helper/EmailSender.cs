@@ -1,12 +1,9 @@
-﻿using Mailjet.Client;
+﻿using System.Threading.Tasks;
+using Mailjet.Client;
 using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HiddenVilla_Api.Helper
 {
@@ -14,19 +11,16 @@ namespace HiddenVilla_Api.Helper
     {
         private readonly MailJetSettings _mailJetSettings;
 
-        public EmailSender(IOptions<MailJetSettings> mailjetSettings)
-        {
-            _mailJetSettings = mailjetSettings.Value;
-        }
+        public EmailSender(IOptions<MailJetSettings> mailjetSettings) => _mailJetSettings = mailjetSettings.Value;
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            MailjetClient client = new MailjetClient(_mailJetSettings.PublicKey,
+            var client = new MailjetClient(_mailJetSettings.PublicKey,
                 _mailJetSettings.PrivateKey)
             {
                 Version = ApiVersion.V3_1,
             };
-            MailjetRequest request = new MailjetRequest
+            var request = new MailjetRequest
             {
                 Resource = Send.Resource,
             }
@@ -46,10 +40,8 @@ namespace HiddenVilla_Api.Helper
                  {"HTMLPart", htmlMessage}
                  }
                    });
-            MailjetResponse response = await client.PostAsync(request);
 
+            _ = await client.PostAsync(request);
         }
-
-
     }
 }

@@ -115,10 +115,11 @@
 
             }
             NavigationManager.NavigateTo("hotel-amenity");
-            IsProcessingStart = false;
-
         }
         catch (Exception e)
+        {
+        }
+        finally
         {
             IsProcessingStart = false;
         }

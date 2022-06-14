@@ -1,13 +1,11 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Business.Repository.IRepository;
 using DataAcesss.Data;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Repository
 {
@@ -31,14 +29,13 @@ namespace Business.Repository
         public async Task<int> DeleteHotelImageByImageUrl(string imageUrl)
         {
             var allImages = await _db.HotelRoomImages.FirstOrDefaultAsync
-                                (x => x.RoomImageUrl.ToLower() == imageUrl.ToLower());
+                                (x => string.Equals(x.RoomImageUrl, imageUrl, System.StringComparison.OrdinalIgnoreCase));
             if (allImages == null)
             {
                 return 0;
             }
             _db.HotelRoomImages.Remove(allImages);
             return await _db.SaveChangesAsync();
-
         }
 
         public async Task<int> DeleteHotelRoomImageByImageId(int imageId)

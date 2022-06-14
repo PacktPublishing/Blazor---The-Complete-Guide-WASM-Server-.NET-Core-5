@@ -4,7 +4,7 @@
 
     <h1 class="h3 mb-3 pt-3 font-weight-normal text-primary" style="text-align:center;">Sign In</h1>
 
-    <EditForm Model="UserForAuthentication" OnValidSubmit="LoginUser">
+    <EditForm Model="_userForAuthentication" OnValidSubmit="LoginUser">
         <DataAnnotationsValidator />
 
         @if (ShowAuthenticationErrors)
@@ -12,10 +12,10 @@
             <p class="text-center text-danger">@Errors</p>
         }
 
-        <InputText @bind-Value="UserForAuthentication.UserName" id="email" placeholder="Email..." class="form-control mb-2" />
-        <ValidationMessage For="(()=>UserForAuthentication.UserName)"></ValidationMessage>
-        <InputText @bind-Value="UserForAuthentication.Password" type="password" placeholder="Password..." id="password" class="form-control mb-2" />
-        <ValidationMessage For="(()=>UserForAuthentication.Password)"></ValidationMessage>
+        <InputText @bind-Value="_userForAuthentication.UserName" id="email" placeholder="Email..." class="form-control mb-2" />
+        <ValidationMessage For="(()=>_userForAuthentication.UserName)"></ValidationMessage>
+        <InputText @bind-Value="_userForAuthentication.Password" type="password" placeholder="Password..." id="password" class="form-control mb-2" />
+        <ValidationMessage For="(()=>_userForAuthentication.Password)"></ValidationMessage>
 
         @if (IsProcessing)
         {
